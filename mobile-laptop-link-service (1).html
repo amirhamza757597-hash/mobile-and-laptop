@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile and Laptop Link Service — মোবাইল, ল্যাপটপ সার্ভিস ও ইলেকট্রনিক্স</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Baloo+Da+2:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-primary:#10191B;
+    --bg-surface:#17262A;
+    --bg-surface-2:#1D2E32;
+    --accent-copper:#C17A3E;
+    --accent-copper-bright:#E0954F;
+    --accent-teal:#5FA8A0;
+    --text-primary:#F2EFE9;
+    --text-muted:#8FA09E;
+    --line:#2A3D40;
+    --radius:10px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    font-family:'Hind Siliguri', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3, .display{
+    font-family:'Baloo Da 2', 'Hind Siliguri', sans-serif;
+    font-weight:700;
+    letter-spacing:0.2px;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  /* ---------- background circuit texture ---------- */
+  .circuit-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.35;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(circle at 20% 10%, black 0%, transparent 65%);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(16,25,27,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-wrap{
+    max-width:1160px;
+    margin:0 auto;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:1.3rem;
+    color:var(--text-primary);
+  }
+  .logo-node{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--accent-copper-bright);
+    box-shadow:0 0 0 4px rgba(224,149,79,0.15);
+  }
+  .logo .sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.65rem;
+    color:var(--accent-teal);
+    letter-spacing:1.5px;
+    display:block;
+    margin-top:-2px;
+  }
+  nav ul{
+    display:flex;
+    gap:28px;
+    list-style:none;
+  }
+  nav a{
+    font-size:0.95rem;
+    color:var(--text-muted);
+    transition:color .2s;
+    position:relative;
+  }
+  nav a:hover, nav a:focus-visible{ color:var(--text-primary); }
+  .nav-cta{
+    background:var(--accent-copper);
+    color:#12181A;
+    padding:9px 18px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:0.9rem;
+    transition:background .2s, transform .2s;
+  }
+  .nav-cta:hover{ background:var(--accent-copper-bright); transform:translateY(-1px); }
+
+  .menu-toggle{ display:none; background:none; border:none; color:var(--text-primary); font-size:1.5rem; cursor:pointer; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    max-width:1160px;
+    margin:0 auto;
+    padding:88px 24px 72px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.8rem;
+    color:var(--accent-teal);
+    letter-spacing:2px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:24px; height:1px;
+    background:var(--accent-teal);
+  }
+  .hero h1{
+    font-size:clamp(2.2rem, 4.2vw, 3.4rem);
+    line-height:1.18;
+    margin-bottom:20px;
+  }
+  .hero h1 span{ color:var(--accent-copper-bright); }
+  .hero p{
+    color:var(--text-muted);
+    font-size:1.08rem;
+    max-width:480px;
+    margin-bottom:32px;
+  }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary{
+    background:var(--accent-copper);
+    color:#12181A;
+    padding:14px 26px;
+    border-radius:8px;
+    font-weight:700;
+    font-size:1rem;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:background .2s, transform .2s;
+  }
+  .btn-primary:hover{ background:var(--accent-copper-bright); transform:translateY(-2px); }
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--text-primary);
+    padding:14px 26px;
+    border-radius:8px;
+    font-weight:600;
+    transition:border-color .2s, background .2s;
+  }
+  .btn-ghost:hover{ border-color:var(--accent-teal); background:rgba(95,168,160,0.08); }
+
+  .hero-stats{
+    display:flex;
+    gap:28px;
+    margin-top:44px;
+    flex-wrap:wrap;
+  }
+  .hero-stats div{ border-left:2px solid var(--accent-copper); padding-left:12px; }
+  .hero-stats .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--text-primary);
+    display:block;
+  }
+  .hero-stats .label{ font-size:0.8rem; color:var(--text-muted); }
+
+  /* ---------- spec card (hero visual) ---------- */
+  .spec-card{
+    background:var(--bg-surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px;
+    position:relative;
+  }
+  .spec-card::before{
+    content:"";
+    position:absolute;
+    top:-1px; left:24px; right:24px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--accent-copper), transparent);
+  }
+  .spec-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-muted);
+    letter-spacing:1px;
+  }
+  .spec-top .status{
+    display:flex; align-items:center; gap:6px;
+    color:var(--accent-teal);
+  }
+  .status i{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent-teal);
+    display:inline-block;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
+  .spec-visual{
+    background:var(--bg-primary);
+    border:1px dashed var(--line);
+    border-radius:10px;
+    height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:3rem;
+    margin-bottom:18px;
+  }
+  .spec-rows{ display:flex; flex-direction:column; gap:10px; }
+  .spec-row{
+    display:flex; justify-content:space-between;
+    font-size:0.88rem;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .spec-row:last-child{ border-bottom:none; padding-bottom:0; }
+  .spec-row .k{ color:var(--text-muted); }
+  .spec-row .v{ font-family:'JetBrains Mono', monospace; color:var(--text-primary); }
+
+  /* ---------- section shell ---------- */
+  section{
+    position:relative;
+    max-width:1160px;
+    margin:0 auto;
+    padding:80px 24px;
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:44px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .section-head h2{ font-size:clamp(1.6rem, 3vw, 2.2rem); }
+  .section-head p{ color:var(--text-muted); max-width:420px; }
+
+  .divider{
+    max-width:1160px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .divider .line{
+    height:1px;
+    background:var(--line);
+    position:relative;
+  }
+  .divider .line::before, .divider .line::after{
+    content:"";
+    position:absolute;
+    top:50%; transform:translateY(-50%);
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--accent-copper);
+  }
+  .divider .line::before{ left:0; }
+  .divider .line::after{ right:0; }
+
+  /* ---------- category chips ---------- */
+  .chips{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:36px;
+  }
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    padding:8px 16px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    color:var(--text-muted);
+    cursor:pointer;
+    transition:all .2s;
+    background:transparent;
+  }
+  .chip.active, .chip:hover{
+    border-color:var(--accent-copper);
+    color:var(--accent-copper-bright);
+    background:rgba(193,122,62,0.08);
+  }
+
+  /* ---------- product grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(255px, 1fr));
+    gap:22px;
+  }
+  .card{
+    background:var(--bg-surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:transform .25s, border-color .25s;
+    display:flex;
+    flex-direction:column;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:var(--accent-teal);
+  }
+  .card-top{
+    height:150px;
+    background:var(--bg-surface-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.6rem;
+    position:relative;
+  }
+  .card-tag{
+    position:absolute;
+    top:10px; left:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.65rem;
+    color:var(--text-muted);
+    letter-spacing:0.5px;
+  }
+  .stock{
+    position:absolute;
+    top:10px; right:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.65rem;
+    padding:3px 9px;
+    border-radius:12px;
+    background:rgba(95,168,160,0.15);
+    color:var(--accent-teal);
+  }
+  .card-body{
+    padding:18px 18px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:1;
+  }
+  .card-cat{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem;
+    color:var(--accent-teal);
+    letter-spacing:1px;
+  }
+  .card-body h3{ font-size:1.08rem; font-weight:600; }
+  .card-body .desc{ font-size:0.85rem; color:var(--text-muted); flex:1; }
+  .card-foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .price{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:1.15rem;
+    color:var(--accent-copper-bright);
+  }
+  .price .old{
+    font-size:0.75rem;
+    color:var(--text-muted);
+    text-decoration:line-through;
+    font-weight:400;
+    margin-left:6px;
+  }
+  .card-cta{
+    font-size:0.8rem;
+    color:var(--text-primary);
+    border:1px solid var(--line);
+    padding:7px 12px;
+    border-radius:6px;
+    transition:all .2s;
+  }
+  .card-cta:hover{ border-color:var(--accent-copper); color:var(--accent-copper-bright); }
+
+  /* ---------- why us ---------- */
+  .why-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:22px;
+  }
+  .why-item{
+    padding:24px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--bg-surface);
+  }
+  .why-item .ico{ font-size:1.7rem; margin-bottom:14px; display:block; }
+  .why-item h3{ font-size:1.05rem; margin-bottom:8px; }
+  .why-item p{ font-size:0.88rem; color:var(--text-muted); }
+
+  /* ---------- contact ---------- */
+  .contact-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    background:var(--bg-surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:44px;
+  }
+  .contact-info h2{ margin-bottom:14px; font-size:1.7rem; }
+  .contact-info p{ color:var(--text-muted); margin-bottom:26px; }
+  .contact-list{ display:flex; flex-direction:column; gap:16px; }
+  .contact-list .row{ display:flex; gap:14px; align-items:flex-start; }
+  .contact-list .ic{
+    width:38px; height:38px; border-radius:8px;
+    background:var(--bg-surface-2);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    font-size:1.1rem;
+  }
+  .contact-list .k{ font-size:0.78rem; color:var(--text-muted); font-family:'JetBrains Mono', monospace; }
+  .contact-list .v{ font-size:0.98rem; }
+
+  form{ display:flex; flex-direction:column; gap:14px; }
+  form label{ font-size:0.8rem; color:var(--text-muted); font-family:'JetBrains Mono', monospace; }
+  form input, form textarea{
+    width:100%;
+    background:var(--bg-primary);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    color:var(--text-primary);
+    font-family:'Hind Siliguri', sans-serif;
+    font-size:0.95rem;
+    outline:none;
+    transition:border-color .2s;
+  }
+  form input:focus, form textarea:focus, .chip:focus-visible, .card-cta:focus-visible, .btn-primary:focus-visible, .btn-ghost:focus-visible, .nav-cta:focus-visible, nav a:focus-visible{
+    border-color:var(--accent-teal);
+    outline:2px solid var(--accent-teal);
+    outline-offset:2px;
+  }
+  form textarea{ resize:vertical; min-height:90px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  form button{
+    margin-top:6px;
+    background:var(--accent-copper);
+    color:#12181A;
+    border:none;
+    padding:14px;
+    border-radius:8px;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+    transition:background .2s;
+    font-family:'Hind Siliguri', sans-serif;
+  }
+  form button:hover{ background:var(--accent-copper-bright); }
+  .form-note{ font-size:0.75rem; color:var(--text-muted); margin-top:-4px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 24px;
+    text-align:center;
+  }
+  footer .foot-wrap{
+    max-width:1160px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  footer p{ color:var(--text-muted); font-size:0.85rem; }
+  .foot-links{ display:flex; gap:20px; }
+  .foot-links a{ color:var(--text-muted); font-size:0.85rem; transition:color .2s; }
+  .foot-links a:hover{ color:var(--accent-teal); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px){
+    .hero{ grid-template-columns:1fr; padding-top:32px; }
+    .contact-wrap{ grid-template-columns:1fr; padding:28px; }
+    nav ul{
+      position:fixed;
+      top:64px; left:0; right:0;
+      background:var(--bg-primary);
+      border-bottom:1px solid var(--line);
+      flex-direction:column;
+      padding:20px 24px;
+      gap:16px;
+      display:none;
+    }
+    nav ul.open{ display:flex; }
+    .menu-toggle{ display:block; }
+    .nav-cta{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="circuit-bg"></div>
+
+<header>
+  <div class="nav-wrap">
+    <a href="#top" class="logo">
+      <span class="logo-node"></span>
+      <span>
+        Mobile and Laptop Link Service
+        <span class="sub">REPAIR · ELECTRONICS · GADGETS</span>
+      </span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="মেনু খুলুন">☰</button>
+    <ul id="navMenu">
+      <li><a href="#service">সার্ভিস</a></li>
+      <li><a href="#products">প্রোডাক্ট</a></li>
+      <li><a href="#why">কেন আমরা</a></li>
+      <li><a href="#contact">যোগাযোগ</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">অর্ডার করুন</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow">মোবাইল ও ল্যাপটপ সার্ভিস সেন্টার</div>
+      <h1>মোবাইল-ল্যাপটপ সার্ভিসিং <span>ও সকল ইলেকট্রনিক্স</span> — এক জায়গায়</h1>
+      <p>মোবাইল ও ল্যাপটপ রিপেয়ার, কম্পিউটার, গ্যাজেট এবং সকল প্রকার ইলেকট্রনিক্স মালামাল — অভিজ্ঞ টেকনিশিয়ানের হাতে নিরাপদ সার্ভিস, ন্যায্য দামে।</p>
+      <div class="hero-ctas">
+        <a href="tel:01337365620" class="btn-primary">📞 কল করুন — 01337365620</a>
+        <a href="#products" class="btn-ghost">প্রোডাক্ট দেখুন</a>
+      </div>
+      <div class="hero-stats">
+        <div><span class="num mono">মোবাইল</span><span class="label">রিপেয়ার সার্ভিস</span></div>
+        <div><span class="num mono">ল্যাপটপ</span><span class="label">রিপেয়ার সার্ভিস</span></div>
+        <div><span class="num mono">সকল</span><span class="label">ইলেকট্রনিক্স মালামাল</span></div>
+      </div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-top">
+        <span>FEATURED-UNIT / 001</span>
+        <span class="status"><i></i> IN STOCK</span>
+      </div>
+      <div class="spec-visual">🎧</div>
+      <div class="spec-rows">
+        <div class="spec-row"><span class="k">প্রোডাক্ট</span><span class="v">Apple AirPods Pro</span></div>
+        <div class="spec-row"><span class="k">কালার</span><span class="v">সাদা / কালো</span></div>
+        <div class="spec-row"><span class="k">ওয়ারেন্টি</span><span class="v">দোকানে জিজ্ঞাসা করুন</span></div>
+        <div class="spec-row"><span class="k">মূল্য</span><span class="v">৳600 – ৳750</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><div class="line"></div></div>
+
+  <!-- SERVICE -->
+  <section id="service">
+    <div class="section-head">
+      <div>
+        <h2>আমাদের সার্ভিস</h2>
+        <p>মোবাইল ও ল্যাপটপ সংক্রান্ত সকল সমস্যার সমাধান, একই দোকানে।</p>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="ico">📱</span>
+        <h3>মোবাইল সার্ভিসিং</h3>
+        <p>স্ক্রিন, ব্যাটারি, চার্জিং পোর্ট, সফটওয়্যার — সব ধরনের মোবাইল রিপেয়ার করা হয়।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">💻</span>
+        <h3>ল্যাপটপ সার্ভিসিং</h3>
+        <p>হার্ডওয়্যার সমস্যা, স্ক্রিন, কি-বোর্ড, সফটওয়্যার ইনস্টলেশন সহ সব সার্ভিস।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">🖥️</span>
+        <h3>কম্পিউটার ও গ্যাজেট</h3>
+        <p>কম্পিউটার ও যাবতীয় গ্যাজেট পাওয়া যায়, সাথে প্রয়োজনীয় সাপোর্ট।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">🔌</span>
+        <h3>সকল ইলেকট্রনিক্স মালামাল</h3>
+        <p>চার্জার, ক্যাবল, হেডফোন সহ যাবতীয় ইলেকট্রনিক্স পণ্য এক জায়গায়।</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><div class="line"></div></div>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="section-head">
+      <div>
+        <h2>প্রোডাক্ট তালিকা ও দাম</h2>
+        <p>সবগুলো প্রোডাক্ট স্টক থেকে যাচাই করে দেওয়া হয়, প্রতিটির সাথে অফিসিয়াল ওয়ারেন্টি।</p>
+      </div>
+    </div>
+
+    <div class="chips">
+      <button class="chip active">সব</button>
+      <button class="chip">এয়ারপডস</button>
+      <button class="chip">চার্জিং</button>
+      <button class="chip">নেটওয়ার্ক ডিভাইস</button>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">APPLE-APP-W</span>
+          <span class="stock">স্টকে আছে</span>
+          🎧
+        </div>
+        <div class="card-body">
+          <span class="card-cat">এয়ারপডস</span>
+          <h3>Apple AirPods Pro — সাদা</h3>
+          <p class="desc">অ্যাপল এয়ারপডস প্রো, হোয়াইট কালার।</p>
+          <div class="card-foot">
+            <span class="price">৳600</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">APPLE-APP-B</span>
+          <span class="stock">স্টকে আছে</span>
+          🎧
+        </div>
+        <div class="card-body">
+          <span class="card-cat">এয়ারপডস</span>
+          <h3>Apple AirPods Pro — কালো</h3>
+          <p class="desc">অ্যাপল এয়ারপডস প্রো, ব্ল্যাক কালার।</p>
+          <div class="card-foot">
+            <span class="price">৳750</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">JOYROOM-APP</span>
+          <span class="stock">স্টকে আছে</span>
+          🎧
+        </div>
+        <div class="card-body">
+          <span class="card-cat">এয়ারপডস</span>
+          <h3>Joyroom AirPods Pro</h3>
+          <p class="desc">জয়রুম ব্র্যান্ডের এয়ারপডস প্রো।</p>
+          <div class="card-foot">
+            <span class="price">৳400</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">HOCO-EQ100</span>
+          <span class="stock">স্টকে আছে</span>
+          🎧
+        </div>
+        <div class="card-body">
+          <span class="card-cat">এয়ারপডস</span>
+          <h3>Hoco AirPods EQ100 (AI)</h3>
+          <p class="desc">হোকো ব্র্যান্ডের AI ফিচারযুক্ত এয়ারপডস।</p>
+          <div class="card-foot">
+            <span class="price">কল করে জানুন</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">ARAIMO-Y35</span>
+          <span class="stock">স্টকে আছে</span>
+          🎧
+        </div>
+        <div class="card-body">
+          <span class="card-cat">এয়ারপডস</span>
+          <h3>Araimo AirPods Y35-ENC</h3>
+          <p class="desc">আরাইমো ব্র্যান্ডের ENC নয়েজ ক্যান্সেলেশন এয়ারপডস।</p>
+          <div class="card-foot">
+            <span class="price">৳850</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">BASEUS-20W</span>
+          <span class="stock">স্টকে আছে</span>
+          🔌
+        </div>
+        <div class="card-body">
+          <span class="card-cat">চার্জিং</span>
+          <h3>Baseus 20W চার্জিং কেবল</h3>
+          <p class="desc">বাসিউস ব্র্যান্ডের ২০ ওয়াট ফাস্ট চার্জিং কেবল।</p>
+          <div class="card-foot">
+            <span class="price">৳800</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">VD-PB041</span>
+          <span class="stock">স্টকে আছে</span>
+          🔋
+        </div>
+        <div class="card-body">
+          <span class="card-cat">চার্জিং</span>
+          <h3>VENDEN পাওয়ার ব্যাংক 10000mAh</h3>
+          <p class="desc">মডেল VD-PB041, ১০,০০০mAh ক্যাপাসিটি।</p>
+          <div class="card-foot">
+            <span class="price">৳900</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">AWEI-P6K</span>
+          <span class="stock">স্টকে আছে</span>
+          🔋
+        </div>
+        <div class="card-body">
+          <span class="card-cat">চার্জিং</span>
+          <h3>Awei পাওয়ার ব্যাংক P6K 20000mAh</h3>
+          <p class="desc">অ্যাওয়ে ব্র্যান্ডের ২০,০০০mAh পাওয়ার ব্যাংক।</p>
+          <div class="card-foot">
+            <span class="price">৳2,000</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag mono">TPLINK-C6</span>
+          <span class="stock">স্টকে আছে</span>
+          📶
+        </div>
+        <div class="card-body">
+          <span class="card-cat">নেটওয়ার্ক ডিভাইস</span>
+          <h3>TP-Link রাউটার C6</h3>
+          <p class="desc">টিপি-লিংক ব্র্যান্ডের ওয়াইফাই রাউটার, মডেল C6।</p>
+          <div class="card-foot">
+            <span class="price">৳4,000</span>
+            <a href="#contact" class="card-cta">অর্ডার</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"><div class="line"></div></div>
+
+  <!-- WHY US -->
+  <section id="why">
+    <div class="section-head">
+      <div>
+        <h2>কেন আমাদের থেকে কিনবেন</h2>
+        <p>প্রতিটি প্রোডাক্ট পাঠানোর আগে টেস্ট করে দেখা হয়, যাতে হাতে পাওয়ার পর কোনো সমস্যা না হয়।</p>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="ico">✅</span>
+        <h3>যাচাইকৃত প্রোডাক্ট</h3>
+        <p>প্রতিটি ইউনিট ডেলিভারির আগে চালিয়ে টেস্ট করা হয়।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">🚚</span>
+        <h3>দ্রুত ডেলিভারি</h3>
+        <p>ঢাকার ভেতরে ২৪-৪৮ ঘন্টায়, ঢাকার বাইরে ২-৪ দিনে।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">🛡️</span>
+        <h3>অফিসিয়াল ওয়ারেন্টি</h3>
+        <p>প্রতিটি প্রোডাক্টে নির্দিষ্ট মেয়াদের ওয়ারেন্টি।</p>
+      </div>
+      <div class="why-item">
+        <span class="ico">💳</span>
+        <h3>ক্যাশ অন ডেলিভারি</h3>
+        <p>হাতে পেয়ে দাম দিন — কোনো অগ্রিম টাকা লাগে না।</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><div class="line"></div></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h2>অর্ডার করতে যোগাযোগ করুন</h2>
+        <p>ফর্ম পূরণ করুন অথবা সরাসরি কল/হোয়াটসঅ্যাপ করুন — আমরা দ্রুত রিপ্লাই দেওয়ার চেষ্টা করি।</p>
+        <div class="contact-list">
+          <div class="row">
+            <span class="ic">📞</span>
+            <div>
+              <div class="k">ফোন / হোয়াটসঅ্যাপ</div>
+              <div class="v">01337365620</div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="ic">📍</span>
+            <div>
+              <div class="k">ঠিকানা</div>
+              <div class="v">লন্ডন ইকরাম টাওয়ার, আন্ডারগ্রাউন্ড মার্কেট, বসুন্ধরা রোড, ঢাকা</div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="ic">🕒</span>
+            <div>
+              <div class="k">সময়সূচি</div>
+              <div class="v">প্রতিদিন সকাল ৯টা – রাত ১১টা</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="return handleSubmit(event)">
+        <div class="field">
+          <label for="name">আপনার নাম</label>
+          <input type="text" id="name" placeholder="নাম লিখুন" required>
+        </div>
+        <div class="field">
+          <label for="phone">মোবাইল নম্বর</label>
+          <input type="tel" id="phone" placeholder="01XXXXXXXXX" required>
+        </div>
+        <div class="field">
+          <label for="msg">কোন প্রোডাক্ট লাগবে?</label>
+          <textarea id="msg" placeholder="প্রোডাক্টের নাম ও পরিমাণ লিখুন"></textarea>
+        </div>
+        <button type="submit">মেসেজ পাঠান</button>
+        <p class="form-note">নোট: এটি একটি ডেমো ফর্ম — সচল করতে হলে ব্যাকএন্ড/WhatsApp API যুক্ত করতে হবে।</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-wrap">
+    <p>© 2026 Mobile and Laptop Link Service। সর্বস্বত্ব সংরক্ষিত।</p>
+    <div class="foot-links">
+      <a href="#service">সার্ভিস</a>
+      <a href="#products">প্রোডাক্ট</a>
+      <a href="#why">কেন আমরা</a>
+      <a href="#contact">যোগাযোগ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  function handleSubmit(e){
+    e.preventDefault();
+    alert('ধন্যবাদ! আমরা দ্রুত আপনার সাথে যোগাযোগ করব। (এটি একটি ডেমো — সচল করতে ব্যাকএন্ড যুক্ত করুন)');
+    e.target.reset();
+    return false;
+  }
+</script>
+
+</body>
+</html>
